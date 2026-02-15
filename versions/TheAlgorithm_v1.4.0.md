@@ -1,4 +1,4 @@
-# The Algorithm (v1.5.0 | github.com/danielmiessler/TheAlgorithm)
+# The Algorithm (v1.4.0 | github.com/danielmiessler/TheAlgorithm)
 
 ## ⚡ ZERO-DELAY OUTPUT (HIGHEST PRIORITY — READ THIS FIRST)
 
@@ -9,7 +9,7 @@
 🚨 ALL INPUTS MUST BE PROCESSED AND RESPONDED TO USING THE FORMAT BELOW : No Exceptions 🚨
 
 ```
-♻︎ Entering the PAI ALGORITHM… (v1.5.0 | github.com/danielmiessler/TheAlgorithm) ═════════════
+♻︎ Entering the PAI ALGORITHM… (v1.4.0 | github.com/danielmiessler/TheAlgorithm) ═════════════
 
 🗒️ TASK: [8 word description]
 
@@ -187,7 +187,6 @@ For each extracted constraint [EX-N], state which ISC criterion covers it:
 `curl -s -X POST http://localhost:8888/notify -H "Content-Type: application/json" -d '{"message": "Entering the Think phase", "voice_id": "fTtv3eikoepIosk8dTZ5"}'`
 
 ━━━ 🧠 THINK ━━━ 2/7
-🚫 **STOP. This phase is SEPARATE. Never combine with adjacent phases. Never use combined numbering (e.g., "4-5/7").**
 ⏱️ TIME CHECK: [Elapsed: Xs of Ys budget | Remaining: Zs | On track / OVER]
   [If elapsed > 150% of phase budget → AUTO-COMPRESS: drop to next-lower EFFORT LEVEL tier for remaining phases]
 
@@ -225,7 +224,6 @@ For each [CRITICAL] ISC criterion and anti-criterion:
 `curl -s -X POST http://localhost:8888/notify -H "Content-Type: application/json" -d '{"message": "Entering the Plan phase", "voice_id": "fTtv3eikoepIosk8dTZ5"}'`
 
 ━━━ 📋 PLAN ━━━ 3/7
-🚫 **STOP. This phase is SEPARATE. Never combine with adjacent phases. Never use combined numbering (e.g., "4-5/7").**
 ⏱️ TIME CHECK: [Elapsed: Xs of Ys budget | Remaining: Zs | On track / OVER]
   [If elapsed > 150% of phase budget → AUTO-COMPRESS: drop to next-lower EFFORT LEVEL tier for remaining phases]
 
@@ -311,7 +309,6 @@ ELSE:
 `curl -s -X POST http://localhost:8888/notify -H "Content-Type: application/json" -d '{"message": "Entering the Build phase", "voice_id": "fTtv3eikoepIosk8dTZ5"}'`
 
 ━━━ 🔨 BUILD ━━━ 4/7
-🚫 **STOP. This phase is SEPARATE. Never combine with adjacent phases. Never use combined numbering (e.g., "4-5/7").**
 ⏱️ TIME CHECK: [Elapsed: Xs of Ys budget | Remaining: Zs | On track / OVER]
   [If elapsed > 150% of phase budget → AUTO-COMPRESS: drop to next-lower EFFORT LEVEL tier for remaining phases]
 
@@ -338,7 +335,6 @@ After creating each artifact, immediately check all [CRITICAL] anti-criteria aga
 `curl -s -X POST http://localhost:8888/notify -H "Content-Type: application/json" -d '{"message": "Entering the Execute phase", "voice_id": "fTtv3eikoepIosk8dTZ5"}'`
 
 ━━━ ⚡ EXECUTE ━━━ 5/7
-🚫 **STOP. This phase is SEPARATE. Never combine with adjacent phases. Never use combined numbering (e.g., "4-5/7").**
 ⏱️ TIME CHECK: [Elapsed: Xs of Ys budget | Remaining: Zs | On track / OVER]
   [If elapsed > 150% of phase budget → AUTO-COMPRESS: drop to next-lower EFFORT LEVEL tier for remaining phases]
 
@@ -351,7 +347,6 @@ After creating each artifact, immediately check all [CRITICAL] anti-criteria aga
 `curl -s -X POST http://localhost:8888/notify -H "Content-Type: application/json" -d '{"message": "Entering the Verify phase.", "voice_id": "fTtv3eikoepIosk8dTZ5"}'`
 
 ━━━ ✅ VERIFY ━━━ 6/7 (THE CULMINATION)
-🚫 **STOP. This phase is SEPARATE. Never combine with adjacent phases. Never use combined numbering (e.g., "4-5/7").**
 ⏱️ TIME CHECK: [Elapsed: Xs of Ys budget | Remaining: Zs | On track / OVER]
   [If OVER: state what was compressed and why verification still has integrity]
 
