@@ -5,7 +5,7 @@
 
   **An experiment in systematic problem-solving**
 
-  [![Version](https://img.shields.io/badge/version-0.5.3-blue.svg)](https://github.com/danielmiessler/TheAlgorithm/releases)
+  [![Version](https://img.shields.io/badge/version-4.0.1-blue.svg)](https://github.com/danielmiessler/TheAlgorithm/releases)
   [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
   [![PAI](https://img.shields.io/badge/PAI-integrated-purple.svg)](https://github.com/danielmiessler/PAI)
   [![Status](https://img.shields.io/badge/status-experimental-orange.svg)]()
@@ -17,72 +17,97 @@
 
 ## 🎯 The Idea
 
-I've been working on a general problem-solving framework that I'm calling TheAlgorithm. The core idea is pretty simple: systematically move from **current state** to **ideal state** through verifiable criteria.
+TheAlgorithm is the universal mechanism inside [PAI (Personal AI Infrastructure)](https://github.com/danielmiessler/PAI) — the **Life Operating System** I'm building to magnify human capability. PAI turns AI from a chatbot you talk to into a system that runs your life — knowing your goals, people, workflows, current state, and ideal state — and continuously hill-climbs you from one to the other. The mechanism that does the climbing is TheAlgorithm.
 
-I'm using it as the foundation for my [PAI (Personal AI Infrastructure)](https://github.com/danielmiessler/PAI) system, and early results are promising.
+It's universal because every task — shipping code, writing an essay, making a hire, sending an email, designing a feature — is a transition from **CURRENT STATE → IDEAL STATE** pursued through verifiable iteration.
 
-**The goal:** Every response should surprise and delight ("Euphoric Surprise")
+The bigger story is the **Human 2.0 → Human 3.0** transition: from corporate existence where value is defined by job title, to creative self-expression where individuals define themselves through unique value creation. AI is what makes that possible — but only if you have the scaffolding to point it at your real life, your real goals, and your real definition of "done." PAI is the scaffolding. TheAlgorithm is what runs at its center.
 
-**The method:** Hill-climb toward the ideal state using testable criteria
+**The goal:** Euphoric Surprise — answers that click in a way you couldn't have predicted but instantly recognize as true.
 
-This is v0.1 - my first real attempt at codifying this. I'm sure it'll evolve significantly as I learn what works and what doesn't.
+**The method:** Reverse-engineer vague human intent into a hard-to-vary explanation of "done," then hill-climb against it with verifiable iteration.
 
 ---
 
-## 💡 The Core Insight
+## 💡 The Core Insight (David Deutsch)
 
-I think the most important thing in any iterative improvement process is the transition from **CURRENT STATE** to **IDEAL STATE**.
+Knowledge is **hard-to-vary explanation** — a description of reality (or of a goal) where every detail plays a functional role, so contrary evidence has nowhere to flee. That's what Ideal State Criteria (ISC) are: the irreducible, independently verifiable structure of "done."
 
-This seems obvious, but I don't think most systems actually operationalize it well. Here's what I'm exploring:
+Most goals enter the system as **opacity** — vague human intent, half-articulated, riddled with implicit assumptions. The job of TheAlgorithm is **opacity → transparency**: reverse-engineer the request into an explicit, articulated, testable spec — the PRD — and then climb against it. Articulation is the act of making the implicit explicit. The PRD is where articulation lives.
 
-1. **You need granular, verifiable state**
-   If you can't measure where you are, you can't tell if you're making progress.
+Three system-level tests every PRD must pass (v4.0.0 doctrine):
 
-2. **Criteria need to be testable**
-   Vague goals like "make it better" don't work. You need discrete, binary tests.
+- **Coverage** — every facet of "done" is captured by at least one ISC (no gaps)
+- **Tightness** — no subset of ISCs could be removed while still satisfying the goal (no aggregate redundancy)
+- **Uniqueness** — no meaningfully different ISC set would satisfy the same goal (the goal is precisely specified, not under-determined)
 
-3. **Ideal state is your north star**
-   You can't build good criteria without understanding what "done" looks like.
+A good PRD cannot be varied without destroying the goal. A bad PRD has fluff that could be weakened without changing the outcome. The continuous test, applied at every phase: *"Can I vary this without destroying the goal? If yes, it needs refinement."*
 
-4. **The ideal state changes**
-   As you learn more, your understanding of "ideal" evolves. The system needs to capture that.
+**Euphoric surprise is the experiential side of the same coin.** Hard-to-variability is the *epistemic* test of a good explanation; euphoric surprise is what it *feels like* to encounter one. They aren't separate optimization targets — they're the same phenomenon viewed from inside vs. outside. If the PRD captures the goal as a hard-to-vary explanation, and the work satisfies the PRD, the user encounters a hard-to-vary explanation in form — and that produces the 9–10 rating.
 
 <div align="center">
   <img src="assets/algorithm-foundational.png" alt="Algorithm Foundational Concepts" width="900">
-  <p><em>The pieces I'm working with</em></p>
+  <p><em>Current → Ideal State, via verifiable iteration against a hard-to-vary explanation</em></p>
 </div>
 
 ---
 
 ## ⚙️ How It Works
 
-I'm testing three main components:
+Six pieces compose TheAlgorithm:
 
-### 1. **Ideal State Criteria (ISC)**
-Specific, testable statements about what success looks like:
-- **Exactly 8 words** - Keeps them focused
-- **Granular** - One thing per criterion
-- **Discrete** - Clear boundaries
-- **Testable** - Binary YES/NO you can check quickly
-- **State-based** - What IS true, not what to DO
-
-### 2. **Seven-Phase Execution**
-A loop inspired by the scientific method:
+### 1. Seven Discrete Phases
+Inspired by the scientific method. Always separate, always announced via voice transitions.
 
 ```
-OBSERVE  → What's the current state and what was requested?
-THINK    → What's the underlying intent and ideal outcome?
-PLAN     → What criteria define success?
-BUILD    → Create the solution components
-EXECUTE  → Take actions toward the criteria
-VERIFY   → Confirm each criterion with evidence
-LEARN    → Capture insights for next time
+OBSERVE  → Intent Echo; reverse-engineer the request; preflight gates; reproduce-first; write ISCs
+THINK    → PRD-level Hard-to-Vary Audit (Coverage / Tightness / Uniqueness); per-ISC variation test
+PLAN     → Enumerate deliverables; choose capabilities; consult feedback memory; scan for parallelism
+BUILD    → Create the artifacts
+EXECUTE  → Run them; verify each ISC inline against tool evidence — never "should work"
+VERIFY   → Live-Probe (Rule 1); Commitment-Boundary Advisor (Rule 2); Cross-Vendor Audit at E4/E5 (Rule 2a); Fluff Sweep
+LEARN    → Re-Read Check against the user's original message; capture insight; close the loop
 ```
 
-### 3. **Euphoric Surprise**
-I'm shooting for responses that make you go "wow, I didn't expect that!" instead of just "yeah, that works."
+### 2. Ideal State Criteria (ISC) with Six Categories
+Every ISC is atomic, 8–12 words, binary testable, and tagged:
 
-Is this realistic? Not sure yet. But setting a high bar seems better than settling for "good enough."
+| Tag | Meaning | Constraint |
+|-----|---------|-----------|
+| `[F]` | Functional — core behavior, correctness | No limit |
+| `[S]` | Structural — files, patterns, architecture | Max 40% of total |
+| `[B]` | Behavioral — runtime output, observable results | Min 20% of total |
+| `[N]` | Negative — must NOT happen, no regressions | Min 2 per PRD |
+| `[E]` | Edge — prerequisites, error handling, boundaries | Min 10% of total |
+| `[A]` | Antecedent — preconditions for experiential outcomes (novel juxtaposition, elegance in constraint) | Required ≥1 when goal is experiential |
+
+Each ISC is one load-bearing component of the explanation. The PRD-level audit tests the system; per-ISC HVA tests the lines.
+
+### 3. PRD as System of Record
+Every Algorithm run writes a PRD to disk — the single source of truth for criteria, decisions, verification status, and phase state. PRDs survive across sessions and compactions. The AI writes; hooks read.
+
+### 4. Effort Tiers (E1–E5)
+Tasks scale across five tiers, with proportional doctrine weight:
+
+| Tier | Budget | ISC Floor | When |
+|------|--------|-----------|------|
+| **E1 Standard** | <90s | 6 | Normal request (default) |
+| **E2 Extended** | <3min | 14 | Quality must be extraordinary |
+| **E3 Advanced** | <10min | 28 | Substantial multi-file work |
+| **E4 Deep** | <30min | 48 | Complex design |
+| **E5 Comprehensive** | <2hr+ | 72 | No time pressure |
+
+Higher tiers earn the cost of full ceremony; lower tiers stay fast.
+
+### 5. Verification Doctrine
+Three rules govern every VERIFY pass — none optional:
+
+- **Rule 1 (Live-Probe)** — no ISC flips to `[x]` without tool-based evidence captured in the same or following block. "Should work" is a failure condition.
+- **Rule 2 (Commitment-Boundary Advisor)** — second-opinion gate before any durable deliverable. Mandatory at Extended+.
+- **Rule 2a (Cross-Vendor Audit, Cato, E4/E5 only)** — GPT-5.4 via `codex exec` reviews the same artifacts the Anthropic-family Advisor reviewed, surfacing the blind spots same-vendor reviewers would share.
+
+### 6. Euphoric Surprise
+The end goal isn't passing the criteria — it's the experience the user has when they read the response. A hard-to-vary explanation arriving with novelty: an answer that clicks in a way they couldn't have predicted but instantly recognize as true. The doctrine doesn't try to manufacture this feeling — it builds the conditions where it can happen, then trusts the explanation to do the rest.
 
 ---
 
@@ -215,6 +240,90 @@ Not sure if this is achievable consistently, but that's the experiment.
 ---
 
 ## 🔄 Version History
+
+> The Algorithm has gone through three major eras since v0.1: the **0.x experimental era** (Jan–Feb 2026, format and ISC discovery), the **1.x consolidation** (Feb 2026, zero-delay output and effort-tier rebalancing), and the **2.x → 4.x doctrine era** (Feb–Apr 2026, seven-phase enforcement, verification doctrine, hard-to-vary epistemology). Entries below are abridged — every version has its own embedded `CHANGES FROM …` block at the top of `versions/TheAlgorithm_vX.Y.Z.md`.
+
+### v4.0.1 (2026-04-25) — current
+- **`[A]` category parser fix** — `prd-utils.ts` was silently dropping the v3.30 Antecedent ISC category at parse time
+- **Reflection JSONL fields** — `prd_level_audit` and `hva` counts now captured per run for measurable doctrine effectiveness
+- Patch release on top of v4.0.0; no doctrine changes
+
+### v4.0.0 (2026-04-25)
+- **Frame-shift release: the PRD itself is the hard-to-vary explanation** — Deutschian doctrine elevated from per-ISC to PRD-level
+- **PRD-Level Hard-to-Vary Audit (PLA)** — new mandatory THINK-phase block testing Coverage / Tightness / Uniqueness *before* per-ISC HVA
+- **Doctrine preamble at the top of the file** — Current → Ideal State, opacity → transparency, euphoric surprise as the same phenomenon as hard-to-variability viewed from inside vs outside
+- **7/7 SUMMARY gains a `PRD:` field** — surfaces PLA outcome (`tight | gap | over | under`) alongside per-ISC counts
+
+### v3.30.0 (2026-04-25)
+- **Doctrine grounding release** — ISC explicitly grounded as hard-to-vary explanations of "done" (David Deutsch)
+- **R1 Hard-to-Vary ISC Quality Gate** — sixth ISC gate, applies the variation test
+- **R3 `[A]` Antecedent category** — sixth ISC tag, encodes preconditions for experiential goals
+- **R4 Hard-to-Vary Audit (HVA)** — mandatory THINK-phase per-ISC audit at E2+
+- **R5 Euphoric Surprise Prediction** — replaces SATISFACTION PREDICTION; forces articulation of the insight at the center of the deliverable
+- **R8 Fluff Sweep in VERIFY** — re-applies the variation test to passed ISCs to catch silent relaxation
+
+### v3.29.0 (2026-04-22)
+- **Missed-ask doctrine release** — closes the 82% of low-rated sessions clustering into "you missed what I asked"
+- **RR1 Re-Read Check** — primary agent re-reads the user's last message at end of VERIFY, lists each ask against shipped work, blocks `phase: complete` on any miss
+- **RR2 Deliverable Manifest tier-extension** — required at any effort tier when 2+ explicit sub-tasks exist (was Extended+ only)
+- **RR3 SYNTHESIS auto-load at SessionStart** — weekly complaint-cluster patterns surface into dynamic context
+
+### v3.28.0 (2026-04-21)
+- **Proportional-weight tuning** — Effort Levels rebalanced for dramatic speed range across tiers
+- E1 target now <90s (was <2min), E2 <3min (was <8min), E3 <10min (was <16min); E4/E5 unchanged
+- Reflection JSONL write narrowed to E2+; Satisfaction Prediction optional at E1
+
+### v3.27.0 (2026-04-19)
+- **Rule 2a Cross-Vendor Audit (Cato, E4/E5 only)** — auditor running GPT-5.4 via `codex exec` reviews the same artifacts the Anthropic-family Advisor reviewed, surfaces correlated blind spots
+- Calibrated against Self-MoA research: catch-rate target 30%, deprecate empirically if not earned
+
+### v3.26.0 (2026-04-17)
+- **Doctrine tightening** driven by reflection-mining of 871 algorithm-reflections entries
+- **T1 Deliverable Manifest gate** — PLAN-phase enumerated sub-task list; closes "said X Y Z, shipped X"
+- **T2 Inline Verification mandate** — no ISC may flip to `[x]` in the same tool block as the work without a verification call
+- **T3 Reproduce-First blocking gate** — `🔁 REPRODUCED:` line required before any Read/Grep on suspect code path
+
+### v3.25.0 (2026-04-15)
+- **Capabilities expansion** — SystemsThinking and RootCauseAnalysis added to the capability lattice for structural-cause and incident investigation work
+
+### v3.24.0 (2026-04-13)
+- **Hardening release** on top of v3.23 — five RedTeam-identified escape hatches closed
+- Hard cap of 2 advisor re-calls per conflict; measured-duration short-task check; `[DEFERRED-VERIFY]` ISC status; durable-deliverable concrete binding; `synthesizeAdvisorState()` for state-gaming mitigation
+
+### v3.23.0 (2026-04-11)
+- **Verification Doctrine** — three rules: Live-Probe (mandatory tool-evidence in VERIFY), Commitment-Boundary Advisor (`advisor()` second opinion before durable deliverables), Conflict-Surfacing
+- **PLAN-phase Feedback Memory Consult** and **Parallelism Opportunity Scan** added
+
+### v3.10.0 – v3.21.0 (2026-03 to early April)
+- Intent Echo at OBSERVE line 1; Reverse Engineering block formalized
+- Preflight Gates (Diagnostic / Deploy / External Service / Research)
+- Custom Agents vs Agent Teams routing rules
+- Fast-path mode for verbatim/research-only Standard tasks
+- Mode detection externalized to `mode-detection.md`; capabilities externalized to `capabilities.md`
+
+### v3.0.0 – v3.9.0 (2026-02 to 2026-03)
+- **Seven-phase doctrine made canonical** — OBSERVE, THINK, PLAN, BUILD, EXECUTE, VERIFY, LEARN as discrete phases with mandatory headers and voice transitions
+- **PRD as system of record** — `~/.claude/PAI/MEMORY/WORK/{slug}/PRD.md` is the single source of truth; hooks read, AI writes
+- **ISC category system** — `[F]` Functional, `[S]` Structural, `[B]` Behavioral, `[N]` Negative, `[E]` Edge with proportional caps
+- **Splitting Test** — every criterion checked against And/With, independent failure, scope words, domain boundary
+- **Effort Levels** — E1 Standard / E2 Extended / E3 Advanced / E4 Deep / E5 Comprehensive with ISC floors and capability minimums
+- Voice announcements via inline curl with session_id and phase fields for dual-source phase tracking
+
+### v2.1.1 (2026-02 to 2026-03)
+- **Capability Discovery** — explicit selection process from a CAPABILITIES list; mandatory skill trigger scan at every effort level
+- **Constitutional Principles** consolidated; ISC-before-work, phases-are-discrete, PRDs-auto-sync, voice-curls-at-every-phase
+
+### v1.6.0 (2026-02-16)
+- **Verify Completion Gate** added at end of VERIFY phase
+
+### v1.3.0 – v1.5.0 (2026-02-15)
+- **Zero-Delay Output** mandate — `♻️` header and `🗒️ TASK` line as first output tokens
+- **Self-Interrogation** in OBSERVE — five questions about gaps, prohibitions, and constraints (scaled by effort)
+- **Context Recovery** step — narrow window to recover prior-session work referenced by the user
+- ISC Scale Tiers table aligned with Structure rules (v1.4.0 fix)
+
+### v0.5.8 – v0.5.9 (2026-02-13)
+- Iteration on visible algorithm progression format and inline verification methods
 
 ### v0.5.3 (2026-02-12)
 - **PRD Integration** — Every Algorithm run creates or continues a PRD (Product Requirements Document) on disk as persistent memory
