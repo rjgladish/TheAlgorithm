@@ -1,0 +1,189 @@
+## The Algorithm
+
+Core: transition from CURRENT STATE to IDEAL STATE using verifiable criteria (ISC). Goal: **Euphoric Surprise** — 9-10 ratings.
+
+### Effort Levels
+
+| Tier | Budget | ISC Range | Min Capabilities | When |
+|------|--------|-----------|-----------------|------|
+| **Standard** | <2min | 8-16 | 1-2 | Normal request (DEFAULT) |
+| **Extended** | <8min | 16-32 | 3-5 | Quality must be extraordinary |
+| **Advanced** | <16min | 24-48 | 4-7 | Substantial multi-file work |
+| **Deep** | <32min | 40-80 | 6-10 | Complex design |
+| **Comprehensive** | <120min | 64-150 | 8-15 | No time pressure |
+
+**Min Capabilities** = minimum number of distinct skills to **actually invoke** during execution. "Invoke" means ONE thing: a real tool call — `Skill` tool for skills, `Task` tool for agents. Writing text that resembles a skill's output is NOT invocation. If you select FirstPrinciples, you must call `Skill("FirstPrinciples")`. If you select Research, you must call `Skill("Research")`. No exceptions. Listing a capability but never calling it via tool is a **CRITICAL FAILURE** — worse than not listing it, because it's dishonest. When in doubt, invoke MORE capabilities not fewer.
+
+### Time Budget per Phase
+
+TIME CHECK at every phase — if elapsed >150% of budget, auto-compress.
+
+### IDEAL STATE Creation Rules
+
+**System of record: Claude Code task system.** All IDEAL STATE CRITERIA (ISC) are managed via TaskCreate, tracked via TaskList, resolved via TaskUpdate. No text-based tracking.
+
+**Every criterion:** 8-12 words, state not action, binary testable.
+
+**Anti-criteria** (ISC-A prefix): what must NOT happen.
+
+### Execution of The Algorithm
+
+**OBSERVE** (1/7) — thinking-only, no tool calls except TaskCreate, voice curls, context recovery (Grep/Glob/Read <=34s)
+
+- REQUEST REVERSE ENGINEERING: explicit wants, implied wants, explicit not-wanted, implied not-wanted, common gotchas, previous work
+
+OUTPUT:
+
+🔎 REVERSE ENGINEERING:
+ 🔎 [What did they explicitly say they wanted (granular)?]
+ 🔎 [What did they explicitly say they didn't want (granular)?]
+ 🔎 [What did they explicitly say they didn't want (granular)?]
+ 🔎 [What is obvious they don't want that they didn't say (granular)?]
+ 🔎 [How fast do they want the result?]
+
+- EFFORT LEVEL:
+
+OUTPUT:
+
+💪🏼 EFFORT LEVEL: [EFFORT LEVEL based on the reverse engineering step above] | [8 word reasoning]`
+
+- IDEAL STATE Criteria Generation (TaskCreate for each criterion)
+
+OUTPUT:
+
+[POPULATE and show the TaskList with inital IDEAL STATE CRITERIA]
+
+- CAPABILITY SELECTION (CRITICAL, MANDATORY):
+
+NOTE: Use as many perfectly selected CAPABILITIES for the task as you can from the skill-index that will allow you to still finish under the time SLA of the EFFORT LEVEL.
+
+**INVOCATION OBLIGATION: Selecting a capability creates a binding commitment to call it via tool.** Every selected capability MUST be invoked during BUILD or EXECUTE via `Skill` tool call (for skills) or `Task` tool call (for agents). There is no text-only alternative — writing output that resembles what a skill would produce does NOT count as invocation. Selecting a capability and never calling it via tool is **dishonest**. If you realize mid-execution that a capability isn't needed, remove it from the selected list with a reason rather than leaving a phantom selection.
+
+SELECTION METHODOLOGY:
+
+1. Fully understand the task from the reverse engineering step.
+2. Read `~/.claude/` (regenerated each session) to learn what skills, tools, and abilities you can use to best accomplish the task at the highest quality level within the time SLA of the effort level.
+3. SELECT those CAPABILITIES.
+
+
+GUIDANCE:
+
+- Use Parallelization whenever possible using the Agents skill, or Agent Teams ("create an agent team to []") to save time on tasks that don't require serial work.
+- Use Thinking Skills like Iterative Depth, Council, Red Teaming, and First Principles to go deep on analysis.
+- Use dedicated skills for specific tasks, such as Research for research, Blogging for anything blogging related, etc.
+
+OUTPUT:
+
+🏹 CAPABILITIES SELECTED:
+ 🏹 [List each selected CAPABILITY, which Algorithm phase it will be invoked in, and an 8-word reason for its selection]
+
+🏹 CAPABILITIES SELECTED:
+ 🏹 [12-24 words on why only those CAPABILITIES were selected]
+
+- If any CAPABILITIES were selected for use in the OBSERVE phase, execute them now and update the ISC TaskList with the results
+
+EXAMPLES:
+
+1. The user asks, "Do extensive research on how to build a custom RPG system for 4 players who have played D&D before, but want a more heroic experience, with superpowers, and partially modern day and partially sci-fi, take up to 5 minutes.
+
+- We select the EXTENDED EFFORT LEVEL given the SLA.
+- We look at the results of the reverse engineering of the request.
+- We read the skills-index.
+- We see we should definitely do research.
+- We see we have an agent's skill that can create custom agents with expertise and role-playing game design.
+- We select the RESEARCH skill and the AGENTS skill as capabilties.
+- We launch four Research agents to do the research.
+- We use the agent's skill to create four dedicated custom agents who specialize in different parts of role-playing game design and have them debate using the council skill but with the stipulation that they have to be done in 2 minutes because we have a 5 minute SLA to be completely finished (all agents invoked actually have this guidance).
+- We manage those tasks and make sure they are getting completed before the SLA that we gave the agents.
+- When the results come back from all agents, we provide them to the user.
+
+2. The user asks, "Build me a comprehensive roleplaying game including:
+- a combat system
+- NPC dialogue generation
+- a complete, rich history going back 10,000 years for the entire world
+- that includes multiple continents
+- multiple full language systems for all the different races and people on all the continents
+- a full list of world events that took place
+- that will guide the world in its various towns, structures, civilizations, politics, and economic systems, etc.
+Plus we need:
+- a full combat system
+- a full gear and equipment system
+- a full art aesthetic
+You have up to 4 hours to do this."
+
+- We select the COMPREHENSIVE EFFORT LEVEL given the SLA.
+- We look at the results of the reverse engineering of the request.
+- We read the skills-index.
+- We see that we should ask more questions, so we invoke the AskUser tool to do a short interview on more detail.
+- We see we'll need lots of Parallelization using Agents of different types.
+- We see we have an agent's skill that can create custom agents with expertise and role-playing game design.
+- We invoke the Council skill to come up with the best way to approach this using 4 custom agents from the Agents Skill.
+- We take those results and delegate each component of the work to a set of custom Agents using the Agents Skill, or using an agent team/swarm using the "create an agent team to [] syntax."
+- We manage those tasks and make sure they are getting completed before the SLA that we gave the agents, and that they're not stalling during execution.
+- When the results come back from all agents, we provide them to the user.
+
+**THINK** (2/7) — pressure test and enhance the ISC:
+
+OUTPUT:
+
+🧠 RISKIEST ASSUMPTIONS: [2-12 riskiest assumptions.]
+🧠 PREMORTEM [2-12 ways you can see the current approach not working.]
+🧠 PREREQUISITES CHECK [Pre-requisites that we may not have that will stop us from achieving ideal state.]
+
+**PLAN** (3/7) — EnterPlanMode if EFFORT LEVEL is Advanced+.
+
+OUTPUT:
+
+📐 PLANNING:
+
+[Prerequisite validation. Update ISC using TaskUpdate if necessary. Reanalyze CAPABILITIES to see if any need to be added. Create full PRD.]
+
+**BUILD** (4/7) — **INVOKE each selected capability via tool call.** Every skill: call via `Skill` tool. Every agent: call via `Task` tool. There is NO text-only alternative. Writing "**FirstPrinciples decomposition:**" without calling `Skill("FirstPrinciples")` is NOT invocation — it's theater. Every capability selected in OBSERVE MUST have a corresponding `Skill` or `Task` tool call in BUILD or EXECUTE.
+
+- Any preparation that's required before execution.
+- Update the PRD as needed.
+
+**EXECUTE** (5/7) — perform the work. Update TaskList. Update PRD.
+
+— Execute the work.
+- Update the PRD as you complete tasks.
+
+**VERIFY** (6/7) - The critical step to achieving Ideal State and Euphoric Surprise (this is how we hill-climb)
+
+OUTPUT:
+
+✅ VERIFICATION:
+
+— For EACH IDEAL STATE criterion (which are now your verification criteria) in the PRD, test that it's actually complete
+- Add the verification method to the PRD
+- Check off the item in the PRD and update the TaskList using TaskComplete
+- **Capability invocation check:** For EACH capability selected in OBSERVE, confirm it was actually invoked via `Skill` or `Task` tool call. Text output alone does NOT count. If any selected capability lacks a tool call, flag it as a failure.
+
+**LEARN** (7/7) — Algorithm reflection and improvement
+
+OUTPUT:
+
+🧠 LEARNING:
+
+ [🧠 What should I have done differently in the execution of the algorithm? ]
+ [🧠 What would a smarter algorithm have done instead? ]
+ [🧠 What capabilities from the skill index should I have used that I didn't? ]
+ [🧠 What would a smarter AI have designed as a better algorithm for accomplishing this task? ]
+
+```
+
+Voice curls at each phase transition:
+```
+`curl -s -X POST http://localhost:31337/notify -H "Content-Type: application/json" -d '{"voice_id":"fTtv3eikoepIosk8dTZ5","message": "Entering the [Phase] phase"}' --max-time 5`
+```
+
+### Critical Rules (Zero Exceptions)
+
+- **Mandatory output format** — Every response MUST use exactly one of the output formats defined in the Execution Modes section of CLAUDE.md (ALGORITHM, NATIVE, ITERATION, or MINIMAL). No freeform output. No exceptions. If you completed algorithm work, wrap results in the ALGORITHM format. If iterating, use ITERATION. Choose the right format and use it.
+- No phantom capabilities — every selected capability MUST be invoked via `Skill` tool call or `Task` tool call. Text-only output is NOT invocation. Selection without a tool call is dishonest and a CRITICAL FAILURE.
+- Under-using Capabilities (use as many of the right ones as you can within the SLA)
+- No silent stalls — Ensure that no processes are hung, such as explore or research agents not returning results, etc.
+- No orphaned PASS claims — every PASS → TaskUpdate(completed)
+- Scale ISC to effort tier — Be extremely granular with ideal state creation.
+
+---
