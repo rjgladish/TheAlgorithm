@@ -1,17 +1,4 @@
-## The Algorithm 4.0.1
-
-### CHANGES FROM v4.0.0 → v4.0.1
-
-v4.0.1 is a **patch release** — no doctrine changes. Two fixes that close gaps the v4.0.0 release introduced without realizing:
-
-1. **`[A]` category parser fix (P0).** `~/.claude/hooks/lib/prd-utils.ts` had a hard-coded `VALID_CATEGORIES = Set(['F','S','B','N','E'])`. The `[A]` Antecedent category added in v3.30 R3 was being silently stripped at parse time, so `work.json` and Pulse never saw v4.0 PRDs as having Antecedent ISCs. Added `'A'` to the set.
-2. **Reflection JSONL fields (P1).** The reflection JSONL template gained two new fields so HVA and PRD-Level audit outcomes are captured per run, making v4.0 doctrine effectiveness measurable over time:
-   - `prd_level_audit: "tight" | "gap" | "over" | "under"` — outcome of the v4.0 PRD-Level Hard-to-Vary Audit
-   - `hva: { load_bearing, rewritten, deleted, cluster_bearing }` — counts from the v3.30 per-ISC audit
-
-The `satisfaction_prediction` JSONL field is **kept verbatim** for backward compatibility with `Pulse/Assistant/checks/diary.ts` and `ReflectionInsightsFeed.tsx`. The prompt framing is "Euphoric Surprise Prediction" but the numeric is unchanged.
-
-**What did NOT change:** doctrine (preamble, PLA, per-ISC HVA, all v3.30 R*, Verification Doctrine, RR1/RR2/RR3, all phase boundaries, voice format, frontmatter contract, Forge/Anvil/Cato bindings, fast-path trigger). v4.0.0 in full is preserved.
+## The Algorithm 4.0.0
 
 ### Doctrine — Read This First, Internalize It
 
@@ -1152,7 +1139,7 @@ The last thing you emit to the user is the `━━━ 📃 SUMMARY ━━━ 7/7
 
 **WRITE REFLECTION JSONL** (Extended+ effort; skipped at E1 per v3.28 proportional-weight rebalance):
 ```bash
-echo '{"timestamp":"[ISO-8601]","effort_level":"[tier]","effort_source":"[auto|explicit]","task_description":"[TASK line]","criteria_count":[N],"criteria_passed":[N],"criteria_failed":[N],"prd_id":"[slug]","implied_sentiment":[1-10],"satisfaction_prediction":[1-10],"prd_level_audit":"[tight|gap|over|under]","hva":{"load_bearing":[N],"rewritten":[N],"deleted":[N],"cluster_bearing":[N]},"reflection_q1":"[Q1]","reflection_q2":"[Q2]","reflection_q3":"[Q3]","knowledge_flags":[N],"within_budget":[bool],"doctrine_fired":{"live_probe":[bool],"advisor":[bool],"cato":[bool],"conflict":[bool]}}' >> ~/.claude/PAI/MEMORY/LEARNING/REFLECTIONS/algorithm-reflections.jsonl
+echo '{"timestamp":"[ISO-8601]","effort_level":"[tier]","effort_source":"[auto|explicit]","task_description":"[TASK line]","criteria_count":[N],"criteria_passed":[N],"criteria_failed":[N],"prd_id":"[slug]","implied_sentiment":[1-10],"satisfaction_prediction":[1-10],"reflection_q1":"[Q1]","reflection_q2":"[Q2]","reflection_q3":"[Q3]","knowledge_flags":[N],"within_budget":[bool],"doctrine_fired":{"live_probe":[bool],"advisor":[bool],"cato":[bool],"conflict":[bool]}}' >> ~/.claude/PAI/MEMORY/LEARNING/REFLECTIONS/algorithm-reflections.jsonl
 ```
 
 For optimize mode, add: `"mode":"optimize","eval_mode":"[metric|eval]","target_type":"[type]","experiments_total":[N],"experiments_kept":[N],"hit_rate":[pct],"baseline_score":[value],"final_score":[value],"improvement_pct":[pct],"score_name":"[metric_name or pass_rate]","preset":"[name|null]","params":{"stepSize":[val],"regressionTolerance":[val],"earlyStopPatience":[val]}}`
