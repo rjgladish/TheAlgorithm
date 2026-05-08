@@ -1,4 +1,4 @@
-## The Algorithm 6.3.0
+## The Algorithm 6.2.0
 
 > Change history, migration recipes, and rollback steps live in `changelog.md` (read on demand). This file is doctrine only — what the Algorithm does this run.
 
@@ -34,35 +34,7 @@
 
 **The time budget is the hard constraint set by tier.** ISC floor (E2+) is a soft minimum on the count axis. The capability floor splits into two axes:
 
-**1. Thinking-capability floor (HARD, v6.1.0 — CLOSED ENUMERATION as of v6.3.0).** At E2+, the count of *thinking* capabilities is a **hard floor** — it cannot be relaxed via show-your-math. Difficult work earns thinking depth, full stop.
-
-**The thinking-capability vocabulary is a CLOSED ENUMERATION.** Selection MUST come verbatim from this list — the same names that appear in `capabilities.md` § Thinking & Analysis Capabilities. Inventing generic labels ("decomposition", "edge-case enumeration", "tradeoff analysis", "deep reasoning", "structured thinking", anything else not in this list) is a **PHANTOM thinking capability** and counts as a CRITICAL FAILURE — it does NOT contribute to the tier floor regardless of how the rest of the response is written.
-
-The closed list (verbatim names — copy/paste into `🏹 CAPABILITIES SELECTED`):
-
-- **IterativeDepth** — multi-angle exploration; default at Extended+ when budget allows
-- **ApertureOscillation** — tactical/strategic scope oscillation
-- **FeedbackMemoryConsult** — grep prior `feedback_*.md` for matching mistakes
-- **Advisor** — commitment-boundary second-opinion via `Inference.ts --mode advisor`
-- **ReReadCheck** — final gate, re-read user's last message verbatim
-- **FirstPrinciples** — physics-style deconstruct/challenge/rebuild
-- **SystemsThinking** — Iceberg, causal loops, Meadows leverage points
-- **RootCauseAnalysis** — 5 Whys, Fishbone, Apollo, Swiss Cheese
-- **Council** — multi-agent debate with visible transcripts
-- **RedTeam** — 32-agent adversarial stress-test
-- **Science** — hypothesis-plural falsifiable experiments
-- **BeCreative** — Verbalized Sampling divergent ideation
-- **Ideate** — 9-phase evolutionary idea generation
-- **BitterPillEngineering** — over-prompting audit
-- **Evals** — code/model/human grader scoring
-- **WorldThreatModel** — 11-horizon stress-test
-- **Fabric patterns** — `Skill("Fabric", "<pattern>")` (extract_wisdom, etc.)
-- **ContextSearch** — 2-phase prior PAI work search
-- **ISA** — `Skill("ISA", "<verb> ...")` (counts when invoked for analytical purpose, not just for boilerplate scaffolding)
-
-If a name does not appear in this list verbatim, it is a phantom and is rejected by the audit gate. New thinking capabilities are added by editing `capabilities.md` and bumping the Algorithm minor version — never by ad-hoc invention at run time.
-
-**Capability-Name Audit Gate (NEW v6.3.0, fires at OBSERVE→THINK boundary):** before printing `🏹 CAPABILITIES SELECTED`, verify each thinking name appears verbatim in the closed list above. Any miss is a phantom — split, replace from the list, or remove. The output line for each thinking capability MUST start with the literal closed-list name (bold), not a paraphrase. Example correct: `🏹 **FirstPrinciples** → THINK | …`. Example REJECTED: `🏹 First-principles decomposition → THINK | …`.
+**1. Thinking-capability floor (HARD, v6.1.0).** At E2+, the count of *thinking* capabilities (from the "Thinking & Analysis Capabilities" section of `capabilities.md`) is a **hard floor** — it cannot be relaxed via show-your-math. Difficult work earns thinking depth, full stop.
 
 **2. Delegation-capability floor (SOFT, v6.1.0).** Delegation capabilities (Forge, Anvil, Cato, Agent Teams, Custom Agents, Background Agents, Worktree Isolation, Research, etc.) remain show-your-math relaxable — sometimes the work is genuinely single-author and delegation adds noise.
 
@@ -70,7 +42,7 @@ If a name does not appear in this list verbatim, it is a phantom and is rejected
 
 ### Mode Classification (v6.3.0)
 
-**Mode and tier are decided by a Sonnet classifier at UserPromptSubmit, not by the executor.** `hooks/EffortRouter.hook.ts` runs on every top-level prompt, calls Sonnet via the same subscription-billed `claude` subprocess pattern Inference.ts uses, and writes a single line into additionalContext:
+**Mode and tier are decided by a Sonnet classifier at UserPromptSubmit, not by the executor.** `hooks/PromptProcessing.hook.ts` runs on every top-level prompt, calls Sonnet via the same subscription-billed `claude` subprocess pattern Inference.ts uses, and writes a single line into additionalContext:
 
 ```
 MODE: MINIMAL | NATIVE | ALGORITHM   (always present)
@@ -79,7 +51,7 @@ REASON: <one sentence>
 SOURCE: classifier | fail-safe
 ```
 
-The executor reads this directly. **No regex fallback. No model judgment.** If `MODE` is MINIMAL or NATIVE, the executor uses the corresponding format from `PAI/PAI_SYSTEM_PROMPT.md` (Mode Templates section) and stops. If `MODE` is ALGORITHM, the executor enters the Algorithm at the named `TIER`.
+The executor reads this directly. **No regex fallback. No model judgment.** If `MODE` is MINIMAL or NATIVE, the executor uses the corresponding format from CLAUDE.md and stops. If `MODE` is ALGORITHM, the executor enters the Algorithm at the named `TIER`.
 
 **Classifier rules (encoded in the hook's system prompt):**
 
@@ -303,7 +275,7 @@ This line anchors the entire Algorithm run.
 
 **Set effort level (v6.3.0 — classifier-driven):**
 1. Check for explicit E-level override (`/e1`-`/e5` or `E1`-`E5`, case-insensitive). If found: use that tier, set `effort_source: explicit`.
-2. **Read `MODE` and `TIER` from additionalContext** (written by `EffortRouter.hook.ts`). If `MODE: ALGORITHM`, use `TIER` verbatim, set `effort_source: classifier`.
+2. **Read `MODE` and `TIER` from additionalContext** (written by `PromptProcessing.hook.ts`). If `MODE: ALGORITHM`, use `TIER` verbatim, set `effort_source: classifier`.
 3. **Conversation-context override:** if the classifier returned MINIMAL/NATIVE but the conversation context makes the prompt clearly ALGORITHM-shaped (e.g., a single-word approval to a multi-step plan, a follow-up that depends on prior turns the classifier didn't see), escalate to the appropriate tier and log the mismatch in `## Decisions`. Set `effort_source: context-override`.
 4. Fallback (classifier output absent — should be rare): auto-detect based on task complexity, set `effort_source: auto`.
 
@@ -321,9 +293,9 @@ This line anchors the entire Algorithm run.
 
 **Auto-include bindings:**
 - **ISA Skill** — invoked at OBSERVE for E2+ (E1 inline-write OK), at PLAN for ephemeral feature extraction, at LEARN for canonical Decisions/Changelog/Verification append, at LEARN for Reconcile after ephemeral work.
-- **Forge** (GPT-5.5 via `codex exec`) — auto-include at E3/E4/E5 for any coding task. Always invoke when the user names "Forge".
+- **Forge** (GPT-5.4 via `codex exec`) — auto-include at E3/E4/E5 for any coding task. Always invoke when the user names "Forge".
 - **Anvil** (Kimi K2.6) — invoke at E3/E4/E5 when whole-project context materially affects correctness. Always invoke when the user names "Anvil".
-- **Cato** (GPT-5.5 via `codex exec --sandbox read-only`) — MANDATORY at E4/E5 in VERIFY.
+- **Cato** (GPT-5.4 via `codex exec --sandbox read-only`) — MANDATORY at E4/E5 in VERIFY.
 
 **Build the ISC criteria.** The ISA skill's Scaffold workflow produces an initial draft. Refine each criterion with the Splitting Test. Set `progress: 0/N`. Verify required sections per tier are populated. **Anti-criteria reminder:** before completing OBSERVE, ask yourself: have I included at least one anti-criterion? What MUST NOT happen for this work to count as done?
 
@@ -334,8 +306,7 @@ This line anchors the entire Algorithm run.
 | **Granularity** | Every ISC has a nameable single-tool probe. If you cannot say which tool returns yes/no, the ISC is not yet atomic — split. |
 | **Tier ISC floor (E2+, soft)** | Total ISC count meets the tier floor (E2 ≥16, E3 ≥32, E4 ≥128, E5 ≥256). |
 | **Tier completeness gate (HARD, v6.2.0)** | Required sections per tier are all populated (E1 Goal+Criteria; E2+ adds; E4 all twelve; E5 + Interview ran). Invoke `Skill("ISA", "check completeness")`. |
-| **Thinking floor (HARD)** | Thinking-capability count meets the tier hard floor (E1 0-1, E2 ≥2, E3 ≥4, E4 ≥6, E5 ≥8). **Cannot be relaxed via show-your-math.** Names MUST come from the v6.3.0 closed enumeration verbatim. |
-| **Capability-Name Audit (HARD, v6.3.0)** | Each thinking name in `🏹 CAPABILITIES SELECTED` appears verbatim in the closed enumeration. Phantom names (anything outside the list) do NOT count toward the floor and are a CRITICAL FAILURE. |
+| **Thinking floor (HARD)** | Thinking-capability count meets the tier hard floor (E1 0-1, E2 ≥2, E3 ≥4, E4 ≥6, E5 ≥8). **Cannot be relaxed via show-your-math.** |
 | **Delegation floor (soft)** | Delegation-capability count meets the tier soft floor (E2 ≥1, E3 ≥2, E4 ≥2, E5 ≥4). Overridable with "show your math" in `## Decisions`. |
 
 Anti-criteria ≥1 and Antecedent ≥1-when-experiential are required. ID-stability rule applies to all edits.
@@ -599,9 +570,9 @@ Agent({
 | `knowledge` | `MEMORY/KNOWLEDGE/{People\|Companies\|Ideas\|Research}/<slug>.md` | **Inline write.** |
 | `rule` | `CLAUDE.md` Operational Rules section | **Inline append.** |
 | `gotcha` | The relevant skill's `SKILL.md` Gotchas section | **Inline append.** |
-| `state` | `USER/PROJECTS.md` "Open Sessions to Resume" | **Inline append.** |
-| `business` | `USER/WORK/YOUR_COMPANIES/<company>/` | **Inline write/append.** |
-| `identity` | `USER/PRINCIPAL/PRINCIPAL_IDENTITY.md` / `USER/DIGITAL_ASSISTANT/DA_IDENTITY.md` | **Surface to user.** |
+| `state` | `USER/PROJECTS/PROJECTS.md` "Open Sessions to Resume" | **Inline append.** |
+| `business` | `USER/BUSINESS/<topic>.md` | **Inline write/append.** |
+| `identity` | `USER/PRINCIPAL_IDENTITY.md` / `USER/DA_IDENTITY.md` | **Surface to user.** |
 | `doctrine` | Algorithm `PAI/ALGORITHM/v<next>.md` | **Surface to user.** |
 | `hook` | New/modified `hooks/*.hook.ts` + `settings.json` registration | **Surface to user.** |
 | `permission` | `settings.json` `permissions.deny` / `permissions.allow` | **Surface to user.** |
@@ -619,7 +590,7 @@ Agent({
 ━━━ 📃 SUMMARY ━━━ 7/7
 
 🔄 ITERATION on: [16 words of context — omit on first response, include on follow-ups]
-📃 CONTENT: [Up to 128 lines. Apply Format Rules from PAI_SYSTEM_PROMPT.md Output Format section — scannable chunks, bullets for list-shaped, mini-headers, tables, no wall-of-text.]
+📃 CONTENT: [Up to 128 lines of the content, if there is any]
 🖊️ STORY: [4 8-word bullets in Paul Graham simplicity format for what the problem was, what we did, how it went, and what if anything is next]
 🗣️ DA: [8-16 word summary]
 
@@ -638,7 +609,7 @@ echo '{"timestamp":"[ISO-8601]","effort_level":"[tier]","effort_source":"[auto|g
 
 - **No freeform output** — every response uses the SUMMARY output format above.
 - **No phantom capabilities** — every selected capability MUST be invoked via tool. Text-only is dishonest.
-- **Thinking floor (HARD)** — meet the tier thinking floor (E2 ≥2, E3 ≥4, E4 ≥6, E5 ≥8). Cannot be relaxed via show-your-math. Names MUST come verbatim from the v6.3.0 closed enumeration (IterativeDepth, ApertureOscillation, FeedbackMemoryConsult, Advisor, ReReadCheck, FirstPrinciples, SystemsThinking, RootCauseAnalysis, Council, RedTeam, Science, BeCreative, Ideate, BitterPillEngineering, Evals, WorldThreatModel, Fabric patterns, ContextSearch, ISA). Inventing generic thinking labels is a phantom capability and a CRITICAL FAILURE.
+- **Thinking floor (HARD)** — meet the tier thinking floor (E2 ≥2, E3 ≥4, E4 ≥6, E5 ≥8). Cannot be relaxed via show-your-math.
 - **Delegation floor (soft)** — meet the tier delegation floor or document "show your math" in `## Decisions` naming what the un-selected delegation would have done.
 - **Tier completeness gate (HARD, NEW v6.2.0)** — required ISA sections per tier are all populated before `phase: complete`. Invoke `Skill("ISA", "check completeness")` to confirm.
 - **ISA is YOUR responsibility** — no hook writes to it. You edit it via the ISA skill workflows or direct Edit/Write. ID-stability rule applies (never re-number on edit).

@@ -5,7 +5,7 @@
 
   **An experiment in systematic problem-solving**
 
-  [![Version](https://img.shields.io/badge/version-4.0.1-blue.svg)](https://github.com/danielmiessler/TheAlgorithm/releases)
+  [![Version](https://img.shields.io/badge/version-6.3.0-blue.svg)](https://github.com/danielmiessler/TheAlgorithm/releases)
   [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
   [![PAI](https://img.shields.io/badge/PAI-integrated-purple.svg)](https://github.com/danielmiessler/PAI)
   [![Status](https://img.shields.io/badge/status-experimental-orange.svg)]()
@@ -241,9 +241,74 @@ Not sure if this is achievable consistently, but that's the experiment.
 
 ## 🔄 Version History
 
-> The Algorithm has gone through three major eras since v0.1: the **0.x experimental era** (Jan–Feb 2026, format and ISC discovery), the **1.x consolidation** (Feb 2026, zero-delay output and effort-tier rebalancing), and the **2.x → 4.x doctrine era** (Feb–Apr 2026, seven-phase enforcement, verification doctrine, hard-to-vary epistemology). Entries below are abridged — every version has its own embedded `CHANGES FROM …` block at the top of `versions/TheAlgorithm_vX.Y.Z.md`.
+> The Algorithm has gone through five major eras since v0.1: the **0.x experimental era** (Jan–Feb 2026, format and ISC discovery), the **1.x consolidation** (Feb 2026, zero-delay output and effort-tier rebalancing), the **2.x → 4.x doctrine era** (Feb–Apr 2026, seven-phase enforcement, verification doctrine, hard-to-vary epistemology), the **5.x ISA-rename + checkpoint era** (Apr 2026, PRD → ISA vocabulary, BPE compaction, per-step durability), and the **6.x ISA-as-system-of-record + mode-classifier era** (Apr–May 2026, ISA elevated to universal primitive with five identities, twelve-section frame, classifier-driven mode selection, closed-enumeration thinking-capability vocabulary). Entries below are abridged — every version has its own embedded `CHANGES FROM …` block at the top of `versions/TheAlgorithm_vX.Y.Z.md`.
 
-### v4.0.1 (2026-04-25) — current
+### v6.3.0 (2026-04-29) — current
+- **Thinking-capability vocabulary closed-enumeration release** — the 19 thinking capabilities (IterativeDepth, ApertureOscillation, FeedbackMemoryConsult, Advisor, ReReadCheck, FirstPrinciples, SystemsThinking, RootCauseAnalysis, Council, RedTeam, Science, BeCreative, Ideate, BitterPillEngineering, Evals, WorldThreatModel, Fabric patterns, ContextSearch, ISA) are printed verbatim INSIDE the doctrine read at run time
+- **Capability-Name Audit Gate** — fires at OBSERVE→THINK; thinking names in `🏹 CAPABILITIES SELECTED` must appear verbatim in the closed list, phantom names do NOT count toward the floor and are a CRITICAL FAILURE
+- **Closed-enumeration discipline** — adding new thinking capabilities now requires editing `capabilities.md` AND bumping the Algorithm minor version + updating doctrine; closed-enum drift is no longer silent
+
+### v6.2.0 (2026-04-28)
+- **ISA twelve-section frame** — fixed-order body: Problem, Vision, Out of Scope, Principles, Constraints, Goal, Criteria, Test Strategy, Features, Decisions, Changelog, Verification
+- **Three-guardrail taxonomy** — Principles bind the thinking, Constraints bind the solution space, Out of Scope binds the vision, Anti-criteria bind the test surface
+- **Tier completeness gate (HARD)** — required sections per tier; E1 = Goal+Criteria; E4 = all twelve; E5 + active Interview workflow before BUILD
+- **ISA Skill release** — owns the canonical template and six workflows (Scaffold, Interview, CheckCompleteness, Reconcile, Seed, Append); Algorithm OBSERVE invokes `Skill("ISA")` to scaffold, LEARN routes Decisions/Changelog/Verification through the canonical Append writer
+- **ID-stability rule** — ISC IDs never re-number on edit (splits become ISC-N.M, drops become tombstones); makes deterministic Reconcile safe
+- **Ephemeral feature files formalized** — Ralph Loop / Maestro pattern; derived view from master, ISC-keyed merge
+
+### v6.1.0 (2026-04-28)
+- **Thinking-floor hardening** — capability floor splits into two axes: thinking-capability count is now a HARD FLOOR that cannot be relaxed via show-your-math (E2 ≥2, E3 ≥4, E4 ≥6, E5 ≥8)
+- **Delegation-capability count remains soft** and show-your-math relaxable (E2 ≥1, E3 ≥2, E4 ≥2, E5 ≥4)
+- Closes the v6.0.0 escape valve where "show your math" was used to skip thinking-capability floors entirely on Deep tasks
+
+### v6.0.0 (2026-04-27)
+- **Frame shift release: ISA elevated to universal primitive with five identities** — ideal state articulation, test harness, build verification, done condition, hard-to-vary explanation. One document, no parallel acceptance.yaml/acceptance.ts artifacts
+- **Unit reframed from "task" to "thing being articulated"** — project ISAs at `<project>/ISA.md` for any persistent thing (apps, CLI tools, libraries, content pipelines, the Algorithm itself); task ISAs at `MEMORY/WORK/{slug}/ISA.md` for ad-hoc one-shot work
+- **Mode-selection regression fixed** — deterministic NATIVE→ALGORITHM floor via 5 triggers (doctrine-affecting, architectural-locator, multi-project, soft-user-signal, hard-to-vary) plus 3-axis test (retrievability/blast-radius/hard-to-vary depth)
+- **Capability floors restored at v4.1.0 numbers** — soft floors with "show your math" override
+
+### v5.7.0 (2026-04-27)
+- ISA-as-living-articulation reframing — explicit doctrine that the ISA evolves through pursuit, with `refined:` decisions logged inline and git history as the trail
+
+### v5.6.0 (2026-04-27)
+- **Master-loop reframing** — doctrine intro tightens to "moving people from current state to ideal state by writing down what done looks like as testable claims, then refining the writing until every claim survives every test it can be subjected to"
+- **Testability declared identical to hard-to-variability operationalized** — same property, two angles
+- ISA-Level audit (Coverage / Tightness / Uniqueness) recurs at every phase boundary, not just THINK
+
+### v5.5.0 (2026-04-27)
+- BPE compaction: dropped the residual `ISC-A-N` numbering convention for anti-criteria
+
+### v5.4.0 (2026-04-27)
+- **Unified Learning Router in LEARN phase** — replaces the narrow "Knowledge capture" step with a router that handles every kind of learning: knowledge, operational rules, skill gotchas, project state, business facts, identity edits, doctrine changes, hook proposals, permission changes
+- Routing table mirrors PAI Self-Healing Infrastructure so Algorithm and constitution agree
+- Documentation-sync downstream: any inline write to a system file triggers documentation-update workflow
+
+### v5.3.0 (2026-04-27)
+- **BPE-driven removal of ISC category tags** — `[F]`/`[S]`/`[B]`/`[N]`/`[E]`/`[A]` deleted from on-disk format; collapses to `- [ ] ISC-N: criterion text`
+- Two doctrinal kinds preserved as prefix conventions, not bracket letters: anti-criteria via `Anti:` prefix, antecedent via `Antecedent:` prefix
+- Parser is backward-compatible — legacy bracketed ISAs still parse
+
+### v5.2.0 (2026-04-26)
+- Reintroduces per-tier ISC count floors at E2+ as soft minimums on the count axis only: E2 ≥16, E3 ≥32, E4 ≥128, E5 ≥256
+- E1 stays floor-free; no category percentages, no capability-mix splits — just count
+
+### v5.1.0 (2026-04-26)
+- **Per-step durability via `CheckpointPerISC` hook** — PostToolUse on ISA edits, auto-commits a git checkpoint per ISC transition with `--no-verify --no-gpg-sign`
+- Sidecar idempotency state, allowlist for opt-in repos
+- Inspection + preview-only rollback via `Checkpoint.ts {list|show|rollback}`
+
+### v5.0.0 (2026-04-26)
+- **BPE compaction** — Bitter Pill Engineering applied to the Algorithm itself; prescriptive scaffolding (ISC count floors per tier, min-capability counts, category percentage caps and minimums) removed
+- Replaced with two operational rules: **ISC granularity** (split until each criterion is one binary tool probe) and **capability binding-commitment** (named = invoked, no minimum count)
+- Tier time budgets remain the only quantitative anchor; all doctrine preserved verbatim
+
+### v4.1.0 (2026-04-23)
+- **Vocabulary release: PRD → ISA (Ideal State Artifact)** — no doctrine changes
+- ISA pronounces as a single English word ("EYE-suh"); PRD forced letter-by-letter robot speech in voice-rendered work
+- ISA + ISC pair as a single compositional story; "Artifact" implies tangible verifiable output (engineering noun)
+- Filename change with alias period: new sessions write `MEMORY/WORK/{slug}/ISA.md`; hooks read both `ISA.md` and `PRD.md` for one minor version
+
+### v4.0.1 (2026-04-22)
 - **`[A]` category parser fix** — `prd-utils.ts` was silently dropping the v3.30 Antecedent ISC category at parse time
 - **Reflection JSONL fields** — `prd_level_audit` and `hva` counts now captured per run for measurable doctrine effectiveness
 - Patch release on top of v4.0.0; no doctrine changes
